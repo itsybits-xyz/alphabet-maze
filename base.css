@@ -1,3 +1,6 @@
+.scene {
+  display: none;
+}
 .truck {
   position: absolute;
   left: 240px;

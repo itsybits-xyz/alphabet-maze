@@ -1,3 +1,51 @@
+const alphabets = 'abcdefghijklmnopqrstuvwyxz'
+
+class Game {
+  constructor () {
+    this.scene = null
+  }
+
+  setScene (sceneName) {
+    this.scene && this.scene.destroy()
+    this.scene = new sceneName()
+  }
+}
+
+class StartScene {
+  constructor () {
+    document.querySelector('.scene-start').style.display = 'block'
+    this.start = document.querySelector('.scene-start button')
+    this.start.addEventListener('click', this.handleClick)
+  }
+
+  handleClick () {
+    window.game.setScene(Level1Scene)
+  }
+
+  destroy () {
+    document.querySelector('.scene-start').style.display = 'none'
+    this.start.removeEventListener('click', this.handleClick)
+  }
+}
+
+class Level1Scene {
+  constructor () {
+    document.querySelector('.scene-level1').style.display = 'block'
+    this.truck = new Truck()
+    document.addEventListener('keyup', this.handleKeyUp.bind(this))
+  }
+
+  handleKeyUp (evt) {
+    const letter = String.fromCharCode(evt.keyCode).toLowerCase()
+    this.truck.handleKey(letter)
+  }
+
+  destroy () {
+    document.querySelector('.scene-level1').style.display = 'none'
+    document.removeEventListener('keyup', this.handleKeyUp)
+  }
+}
+
 class Truck {
   constructor () {
     this.level = [
@@ -115,11 +163,5 @@ function pickRandomN (items, n) {
   return Array.from(selected)
 }
 
-var alphabets = 'abcdefghijklmnopqrstuvwyxz'
-
-
-window.truck = new Truck()
-document.addEventListener('keyup', function(evt) {
-  const letter = String.fromCharCode(evt.keyCode).toLowerCase()
-  truck.handleKey(letter)
-})
+window.game = new Game()
+window.game.setScene(StartScene)
