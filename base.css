@@ -1,0 +1,32 @@
+.truck {
+  position: absolute;
+  left: 240px;
+  top: 36px;
+}
+.truck span {
+  position: absolute;
+}
+.truck span.up {
+  left: 15px;
+  top: -75px;
+}
+.truck span.down {
+  left: 15px;
+  top: 75px;
+}
+.truck span.left {
+  top: -2px;
+  left: -60px;
+}
+.truck span.right {
+  top: -2px;
+  left: 90px;
+}
+.truck-body {
+  zoom: 0.03;
+}
+.maze {
+  background-image: url('maze.png');
+  width: 574px;
+  height: 361px;
+}
