@@ -1,6 +1,12 @@
 .scene {
   display: none;
 }
+.crown {
+  position: absolute;
+  background-image: url('crown.png');
+  width: 128px;
+  height: 128px;
+}
 .truck {
   position: absolute;
   left: 240px;

@@ -46,6 +46,16 @@ class Level1Scene {
   }
 }
 
+class EndScene {
+  constructor () {
+    document.querySelector('.scene-end').style.display = 'block'
+  }
+
+  destroy () {
+    document.querySelector('.scene-end').style.display = 'none'
+  }
+}
+
 class Truck {
   constructor () {
     this.level = [
@@ -60,6 +70,10 @@ class Truck {
     this.position = {
       row: 0, // (72 * row) + 36
       column: 3, // (72 * column) + 24
+    }
+    this.finish = {
+      row: 4,
+      column: 4,
     }
     this.letters = {
       up: document.querySelector('.truck .up'),
@@ -97,6 +111,16 @@ class Truck {
     this.letters.right.innerText = r
     this.letters.up.innerText = u
     this.letters.down.innerText = d
+    if (this.checkFinish()) {
+      window.game.setScene(EndScene)
+    }
+  }
+
+  checkFinish () {
+    if (this.position.row === this.finish.row && this.position.column === this.finish.column) {
+      return true
+    }
+
   }
 
   allowableDirections () {
