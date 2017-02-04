@@ -13,6 +13,13 @@ class Truck {
       row: 0, // (72 * row) + 36
       column: 3, // (72 * column) + 24
     }
+    this.letters = {
+      up: document.querySelector('.truck .up'),
+      down: document.querySelector('.truck .down'),
+      left: document.querySelector('.truck .left'),
+      right: document.querySelector('.truck .right'),
+    }
+    this.update()
   }
 
   handleKey (keyCode) {
@@ -34,6 +41,10 @@ class Truck {
   update () {
     this.el.style.top = ((this.position.row * 72) + 36) + 'px'
     this.el.style.left = ((this.position.column * 72) + 24) + 'px'
+    this.letters.left.style.display = this.allow('l') ? 'inline' : 'none'
+    this.letters.right.style.display = this.allow('r') ? 'inline' : 'none'
+    this.letters.up.style.display = this.allow('u') ? 'inline' : 'none'
+    this.letters.down.style.display = this.allow('d') ? 'inline' : 'none'
   }
 
   allowableDirections () {
