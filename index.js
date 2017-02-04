@@ -30,9 +30,27 @@ class StartScene {
 
 class Level1Scene {
   constructor () {
-    document.querySelector('.scene-level1').style.display = 'block'
+    this.el = document.querySelector('.scene-level1')
+    this.el.style.display = 'block'
     this.truck = new Truck()
     document.addEventListener('keyup', this.handleKeyUp.bind(this))
+    const maze = this.el.querySelector('.maze')
+    for (var row = 0; row < 5; row++) {
+      for (var column = 0; column < 8; column++) {
+        const div = document.createElement('div')
+        div.classList.add('grid')
+        div.classList.add('pos-' + column + '-' + row)
+        const possibleDirections = ['u', 'd', 'l', 'r']
+        possibleDirections
+          .filter((dir) => {
+            return this.truck.allowableDirections(row, column).indexOf(dir) === -1
+          })
+          .forEach((dir) => {
+            div.classList.add(dir)
+          })
+        maze.appendChild(div) 
+      }
+    }
   }
 
   handleKeyUp (evt) {
@@ -41,7 +59,7 @@ class Level1Scene {
   }
 
   destroy () {
-    document.querySelector('.scene-level1').style.display = 'none'
+    this.el.style.display = 'none'
     document.removeEventListener('keyup', this.handleKeyUp)
   }
 }
@@ -59,12 +77,12 @@ class EndScene {
 class Truck {
   constructor () {
     this.level = [
-      // 1            2           3                4          5          6           7             8
+      // 0            1           2                3          4          5           6             7
       [['r','d'], ['l','d','r'], ['l','d'],     ['d','r'], ['l','r'], ['l','r'], ['l','r'],     ['l','d']],
       [['u'],     ['u','d'],     ['u','d'],     ['u','r'], ['l'],     ['r','d'], ['l','r'],     ['l','d','u']],
       [['r','d'], ['u','l'],     ['u','d','r'], ['l','r'], ['l','r'], ['u','l'], ['d'],         ['u','d']],
       [['u','d'], ['r'],         ['u','l'],     ['d','r'], ['l','d'], ['d'],     ['u','r','d'], ['u','l']],
-      [['u','r'], ['r','l'],     ['r','l'],     ['u','l'], ['u'],     ['u','r']  ['u','l','r'], ['l']],
+      [['u','r'], ['r','l'],     ['r','l'],     ['u','l'], ['u'],     ['u','r'], ['u','l','r'], ['l']],
     ]
     this.el = document.querySelector('.truck')
     this.position = {
@@ -123,8 +141,10 @@ class Truck {
 
   }
 
-  allowableDirections () {
-    return this.level[this.position.row][this.position.column]
+  allowableDirections (row, column) {
+    var gRow = row === undefined ? this.position.row : row
+    var gCol = column === undefined ? this.position.column : column
+    return this.level[gRow][gCol]
   }
 
   allow (direction) {

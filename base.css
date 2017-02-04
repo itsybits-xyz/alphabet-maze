@@ -35,7 +35,25 @@
   zoom: 0.03;
 }
 .maze {
-  background-image: url('maze.png');
-  width: 574px;
-  height: 361px;
+  /* background-image: url('maze.png'); */
+  width: 576px;
+  height: 360px;
+}
+.maze .grid {
+  height: 72px;
+  width: 72px;
+  box-sizing: border-box;
+  float: left;
+}
+.maze .grid.u {
+  border-top: 1px solid black;
+}
+.maze .grid.l {
+  border-left: 1px solid black;
+}
+.maze .grid.r {
+  border-right: 1px solid black;
+}
+.maze .grid.d {
+  border-bottom: 1px solid black;
 }
