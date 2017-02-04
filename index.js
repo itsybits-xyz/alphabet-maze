@@ -22,22 +22,21 @@ class Truck {
     this.update()
   }
 
-  handleKey (keyCode) {
-    const letter = String.fromCharCode(keyCode).toLowerCase()
-    if (letter === 'a') {
+  handleKey (letter) {
+    if (this.letters.up.innerText === letter) {
       this.up()
     }
-    if (letter === 'b') {
+    if (this.letters.down.innerText === letter) {
       this.down()
     }
-    if (letter === 'c') {
+    if (this.letters.left.innerText === letter) {
       this.left()
     }
-    if (letter === 'd') {
+    if (this.letters.right.innerText === letter) {
       this.right()
     }
   }
-
+  
   update () {
     this.el.style.top = ((this.position.row * 72) + 36) + 'px'
     this.el.style.left = ((this.position.column * 72) + 24) + 'px'
@@ -45,6 +44,11 @@ class Truck {
     this.letters.right.style.display = this.allow('r') ? 'inline' : 'none'
     this.letters.up.style.display = this.allow('u') ? 'inline' : 'none'
     this.letters.down.style.display = this.allow('d') ? 'inline' : 'none'
+    const [l, r, u, d] = pickRandomN(alphabets, 4)
+    this.letters.left.innerText = l
+    this.letters.right.innerText = r
+    this.letters.up.innerText = u
+    this.letters.down.innerText = d
   }
 
   allowableDirections () {
@@ -92,7 +96,30 @@ class Truck {
   }
 }
 
+function getRandomInt (min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function pickRandomN (items, n) {
+  if (items.length < n) throw new RangeError(`Not enough elemnts to take. Requested: ${n} Available: ${items.length}`)
+  selected = new Set()
+  while (n) {
+    const i = getRandomInt(0, items.length)
+    if (!selected.has(items[i])) {
+      selected.add(items[i])
+      n--
+    }
+  }
+  return Array.from(selected)
+}
+
+var alphabets = 'abcdefghijklmnopqrstuvwyxz'
+
+
 window.truck = new Truck()
 document.addEventListener('keyup', function(evt) {
-  truck.handleKey(evt.keyCode)
+  const letter = String.fromCharCode(evt.keyCode).toLowerCase()
+  truck.handleKey(letter)
 })
